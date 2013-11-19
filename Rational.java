@@ -70,10 +70,48 @@ public class Rational {
 	_denom = _denom / this.gcd();
     }
 
+    public static int gcd(int a, int b) {
+	int r;
+	while ( b != 0 ) {
+	    r = a % b;
+	    a = b;
+	    b = r;
+	}
+	return a;
+    } //not sure this is what it's supposed to be but it should work
+
+    public int compareToThat(Rational x) {
+	int retInt = 0;
+	if ( this._denom != x._denom ) {
+	    if ( (this._num*x._denom) > (x._num*this._denom) ) {
+		retInt = 1;
+	    }
+	    else if ( (this._num*x._denom) < (x._num*this._denom) ) {
+		retInt = -1;
+	    }
+	    else {
+		retInt = 0;
+	    }
+	}
+	else {
+	    if ( this._num > x._num ) {
+		retInt = 1;
+	    }
+	    else if ( this._num < x._num ) {
+		retInt = -1;
+	    }
+	    else {
+		retInt = 0;
+	    }
+	}
+	return retInt;
+    } //this is ugly but hopefully functional
+
     public static void main( String[] args ) {
 	Rational r = new Rational(2,3);
 	Rational s = new Rational(1,2);
 	Rational t = new Rational(4,18);
+	Rational u = new Rational(2, 9);
 
 	/*==========
 
@@ -98,6 +136,10 @@ public class Rational {
 	r.reduce();
 	r.subtract(s);
 	System.out.println(r);
+
+	System.out.println( r.compareToThat(s) );
+	System.out.println( s.compareToThat(r) );
+	System.out.println( t.compareToThat(u) );
 
 	==========*/
 
