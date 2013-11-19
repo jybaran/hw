@@ -38,6 +38,11 @@ public class Rational {
 	_denom *= x._denom;
     }
 
+    public void divide(Rational x) {
+	_num = (int) _num / x._num;
+	_denom = (int) _denom / x._denom;
+    }
+
     public static void main( String[] args ) {
 	Rational r = new Rational(2,3);
 	Rational s = new Rational(1,2);
@@ -49,6 +54,9 @@ public class Rational {
 	System.out.println( s.floatValue() );
 
 	r.multiply(s);
+	System.out.println(r);
+
+	r.divide(s);
 	System.out.println(r);
     }
 
