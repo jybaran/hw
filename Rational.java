@@ -43,9 +43,39 @@ public class Rational {
 	_denom = (int) _denom / x._denom;
     }
 
+    public void add(Rational x) {
+	_num = (_num * x._denom) + (x._num * _denom);
+	_denom = _denom * x._denom;
+    }
+
+    public void subtract(Rational x) {
+	_num = (_num * x._denom) - (x._num * _denom);
+	_denom = _denom * x._denom;
+    }
+
+    public int gcd() {
+	int a = _num;
+	int b = _denom;
+	int r;
+	while ( b != 0 ) {
+	    r = a % b;
+	    a = b;
+	    b = r;
+	}
+	return a;
+    }
+
+    public void reduce() {
+	_num = _num / this.gcd();
+	_denom = _denom / this.gcd();
+    }
+
     public static void main( String[] args ) {
 	Rational r = new Rational(2,3);
 	Rational s = new Rational(1,2);
+	Rational t = new Rational(4,18);
+
+	/*==========
 
 	System.out.println(r);
 	System.out.println(s);
@@ -58,6 +88,19 @@ public class Rational {
 
 	r.divide(s);
 	System.out.println(r);
+
+	r.add(s);
+	System.out.println(r);
+
+	t.reduce();
+	System.out.println(t);
+	
+	r.reduce();
+	r.subtract(s);
+	System.out.println(r);
+
+	==========*/
+
     }
 
 }
