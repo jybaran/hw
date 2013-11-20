@@ -1,7 +1,7 @@
 // JENNY BARAN
 // pd 8
-// HW28
-// 2013-11-19
+// HW27
+// 2013-11-18
 
 public class Rational implements Comparable{
 
