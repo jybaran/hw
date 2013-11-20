@@ -3,10 +3,10 @@
 // HW27
 // 2013-11-18
 
-public class Rational {
+public class Rational implements Comparable{
 
-    int _num;
-    int _denom;
+    private int _num;
+    private int _denom;
 
     public Rational() {
 	_num = 0;
@@ -24,88 +24,114 @@ public class Rational {
 	}
     }
 
+    public int getNum() {
+	return _num;
+    }
+    
+    public int getDenom() {
+	return _denom;
+    }
+
     public String toString() {
 	String retStr = _num + "/" + _denom;
 	return retStr;
     }
 
     public double floatValue() {
-	return (_num * 1.0) / (_denom * 1.0);
+	return (double)_num / _denom;
     }
 
     public void multiply(Rational x) {
-	_num *= x._num;
-	_denom *= x._denom;
+	_num *= x.getNum();
+	_denom *= x.getDenom();
     }
 
     public void divide(Rational x) {
-	_num = (int) _num / x._num;
-	_denom = (int) _denom / x._denom;
+	if ( x._num != 0 ) {
+	    _num = (int) _num / x.getNum();
+	    _denom = (int) _denom / x.getDenom();
+	}
+	else {
+	    System.out.println( "Div by 0 error. Values unchanged." );
+	}
     }
 
     public void add(Rational x) {
-	_num = (_num * x._denom) + (x._num * _denom);
-	_denom = _denom * x._denom;
+	_num = (_num * x.getDenom()) + (x.getNum() * _denom);
+	_denom = _denom * x.getDenom();
     }
 
     public void subtract(Rational x) {
-	_num = (_num * x._denom) - (x._num * _denom);
-	_denom = _denom * x._denom;
+	_num = (_num * x.getDenom()) - (x.getNum() * _denom);
+	_denom = _denom * x.getDenom();
     }
 
     public int gcd() {
-	int a = _num;
-	int b = _denom;
-	int r;
-	while ( b != 0 ) {
-	    r = a % b;
-	    a = b;
-	    b = r;
+
+	int a, b, x;
+
+	if ( _num > _denom ) {
+	    a = _num;
+	    b = _denom;
 	}
-	return a;
+	else {
+	    a = _denom;
+	    b = _num;
+	}
+
+	while( a % b != 0 ) {
+	    x = a;
+	    a = b;
+	    b = x % b;
+	}
+
+	return b;
     }
 
     public void reduce() {
-	_num = _num / this.gcd();
-	_denom = _denom / this.gcd();
+	int g = gcd();
+	_num = _num / g;
+	_denom = _denom / g;
     }
 
-    public static int gcd(int a, int b) {
-	int r;
-	while ( b != 0 ) {
-	    r = a % b;
-	    a = b;
-	    b = r;
-	}
-	return a;
-    } //not sure this is what it's supposed to be but it should work
+   public static int gcd( int n, int d ) {
 
-    public int compareToThat(Rational x) {
-	int retInt = 0;
-	if ( this._denom != x._denom ) {
-	    if ( (this._num*x._denom) > (x._num*this._denom) ) {
-		retInt = 1;
-	    }
-	    else if ( (this._num*x._denom) < (x._num*this._denom) ) {
-		retInt = -1;
-	    }
-	    else {
-		retInt = 0;
-	    }
+	int a, b, x;
+
+	if ( n > d ) {
+	    a = n;
+	    b = d;
 	}
 	else {
-	    if ( this._num > x._num ) {
-		retInt = 1;
-	    }
-	    else if ( this._num < x._num ) {
-		retInt = -1;
-	    }
-	    else {
-		retInt = 0;
-	    }
+	    a = d;
+	    b = n;
 	}
-	return retInt;
-    } //this is ugly but hopefully functional
+
+	while( a % b != 0 ) {
+	    x = a;
+	    a = b;
+	    b = x % b;
+	}
+
+	return b;
+    }
+
+    public int compareTo( Object x ) {
+
+	int thisNum, xNum;
+
+	thisNum = _num * ((Rational)x).getDenom();
+	xNum = _denom * ((Rational)x).getNum();
+
+	return thisNum - xNum;
+
+    }
+
+    public boolean equals(Rational x) {
+	int thisGCD = this.gcd();
+	int xGCD = x.gcd();
+	return ( ( this._num/thisGCD == x.getNum()/xGCD ) && ( this._denom/thisGCD == x.getDenom()/xGCD ) );
+    }
 
     public static void main( String[] args ) {
 	Rational r = new Rational(2,3);
@@ -137,9 +163,11 @@ public class Rational {
 	r.subtract(s);
 	System.out.println(r);
 
-	System.out.println( r.compareToThat(s) );
-	System.out.println( s.compareToThat(r) );
-	System.out.println( t.compareToThat(u) );
+	System.out.println( r.compareTo(s) );
+	System.out.println( s.compareTo(r) );
+	System.out.println( t.compareTo(u) );
+
+	System.out.println( t.equals(u) );
 
 	==========*/
 
