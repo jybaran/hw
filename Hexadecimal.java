@@ -153,6 +153,8 @@ public class Hexadecimal implements Comparable {
 	System.out.println( h1.compareTo(h4) ); //should be neg
 	System.out.println( h4.compareTo(h1) ); //should be pos
 
+	System.out.println( decToHexR(100) );
+
     }//end main()
 
 } //end class
