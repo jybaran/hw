@@ -18,7 +18,13 @@
 
 /*==================================================
   the Breakdown:
-  Blah blah blah, yakkity smakkity, and a nice tall glass of OJ...
+  The fastest way to guess a random number is to reduce the range by half with each guess. The range keeps getting divided by 2 until you reach a range where there is only one value between _lo and _hi. Number of times n can be halved before it reduces to 1.
+  
+  between 1 and 100, the max # of guesses is 7.
+  between 1 and 200, the max # of guesses is 8.
+  between 1 and 400, the max # of guesses is 9.
+  between 1 and 1000, the max # of guesses is 10.
+  between 1 and n, the max # of guesses is the exponent of the lowest power of 2 that is greater than n
   ==================================================*/
 
 
