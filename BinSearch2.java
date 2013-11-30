@@ -1,3 +1,10 @@
+// JENNY BARAN
+// pd 8
+// HW34
+// 2013-11-27
+
+import java.util.Arrays;
+
 public class BinSearch2 {
 
     public static int binSearch ( Comparable[] a, Comparable target ) {
@@ -36,7 +43,7 @@ public class BinSearch2 {
 	    else if ( a[mid].compareTo(target) < 0 ) {
 		lo = mid + 1;
 	    }
-	    else {
+	    else if ( a[mid].compareTo(target) == 0 ){
 		return mid;
 	    }
 	}
@@ -71,25 +78,113 @@ public class BinSearch2 {
     //main method for testing
     public static void main ( String[] args ) {
 
+	//--------INTEGER ARRAY--------
+
 	System.out.println("\nNow testing binSearch on int array...");
 
 	//Declare and initialize array of ints
-	Integer[] iArr = { 2, 4, 6, 8, 5, 42, 60 };
+	Integer[] iArr = { 2, 4, 6, 8, 13, 42, 60 };
 	printArray( iArr );
 	System.out.println( "sorted? -- " + isSorted(iArr) );
 
-	Integer[] iArr2 = { 2, 4, 6, 8, 13, 42 };
-	printArray( iArr2 );
-	System.out.println( "sorted? -- " + isSorted(iArr2) );
-
 	//search for 6 in array 
-	System.out.println( binSearch(iArr2,2) );
+	System.out.println( binSearch(iArr,6) );
 
 	//search for 43 in array 
-	System.out.println( binSearch(iArr2,43) );
+	System.out.println( binSearch(iArr,43) );
 
 	//search for 13 in array
-	System.out.println( binSearch(iArr2, 13) );
+	System.out.println( binSearch(iArr, 13) );
+
+	//search for 2 in array
+	System.out.println( binSearch(iArr, 2) );
+
+	//--------BINARY ARRAY--------
+
+	System.out.println("\nNow testing binSearch on Binary array...");
+
+	//Declare and initialize array of Binarys
+	Binary[] bArr = new Binary[10];
+	for( int i = 0; i < bArr.length; i++ ) {
+	    bArr[i] = new Binary( (int)(100 * Math.random()) );
+	}
+
+	Arrays.sort(bArr);
+
+	printArray( bArr );
+	System.out.println( "sorted? -- " + isSorted(bArr) );
+
+	//search for the value in slot 3 in array 
+	System.out.println( binSearch(bArr,bArr[3]) );
+
+	//search for 101 in array 
+	System.out.println( binSearch(bArr, new Binary(5)) );
+
+	//search for 100000000 in array
+	System.out.println( binSearch(bArr, new Binary(256)) );
+
+	//--------HEXADECIMAL ARRAY--------
+	
+	System.out.println("\nNow testing binSearch on Hexadecimal array...");
+
+	//Declare and initialize array of Hexadecimals
+	Hexadecimal[] hArr = new Hexadecimal[10];
+	for( int i = 0; i < hArr.length; i++ ) {
+	    hArr[i] = new Hexadecimal( (int)(100 * Math.random()) );
+	}
+
+	Arrays.sort(hArr);
+
+	printArray( hArr );
+	System.out.println( "sorted? -- " + isSorted(hArr) );
+
+	//search for the value in slot 3 in array 
+	System.out.println( binSearch(hArr,hArr[3]) );
+
+	//search for 5 in array 
+	System.out.println( binSearch(hArr,new Hexadecimal(5)) );
+
+	//search for 100 in array
+	System.out.println( binSearch(hArr, new Hexadecimal(256)) );
+
+	//--------RATIONAL ARRAY--------
+
+	System.out.println("\nNow testing binSearch on Rational array...");
+
+	//Declare and initialize array of Rationals
+	Rational[] rArr = new Rational[10];
+	for( int i = 0; i < rArr.length; i++ ) {
+	    rArr[i] = new Rational( (int)(10 * Math.random()), ((int)(10 * Math.random() ) + 1) );
+	}
+
+	Arrays.sort(rArr);
+
+	printArray( rArr );
+	System.out.println( "sorted? -- " + isSorted(rArr) );
+
+	//search for the value in slot 3 in array
+	System.out.println( binSearch(rArr, rArr[3]) );
+
+	//search for 11 in array
+	System.out.println( binSearch(rArr, new Rational(11, 1) ) );
+
+	//--------STRING ARRAY--------
+
+	System.out.println("\nNow testing binSearch on String array...");
+
+	//Declare and initialize array of Strings
+	String[] sArr = { "kiwi", "watermelon", "orange", "apple", "peach" };
+	
+	Arrays.sort(sArr);
+
+	printArray( sArr );
+	System.out.println( "sorted? -- " + isSorted(sArr) );
+	
+	//search for "watermelon" in array
+	System.out.println( binSearch(sArr, "watermelon") );
+
+	//search for "lychee" in array
+	System.out.println( binSearch(sArr, "lychee") );
 	
     }//end main()
 
