@@ -3,7 +3,7 @@
 // HW31
 // 2013-11-22
 
-public class Searching {
+public class LinSearch {
     
 
     /*==================================================
