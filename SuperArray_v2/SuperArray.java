@@ -66,53 +66,44 @@ public class SuperArray {
 
     //adds an item after the last item
     public void add( int newVal ) { 
-	if ( _lastPos == _data.length - 1 ) {
-	    this.expand();
+	if ( _size >= _data.length ) {
+	    expand();
 	}
 	_data[ _lastPos + 1 ] = newVal;
 	_lastPos++;
-	_size = _lastPos + 1;
+	_size++;
     }
 
 
     //inserts an item at index    
     public void add( int index, int newVal ) { 
-	if ( index > _data.length - 1) {
-	    this.expand();
+	if ( _size >= _data.length ) {
+	    expand();
 	}
 
-	if ( index <= _lastPos ) {
-	    if ( (_lastPos + 1) >= _data.length ) {
-		this.expand();
-	    }
-	    int temp;
-	    int override = newVal;
-	    for ( int i = index; i < _data.length - 1; i++ ) {
-		temp = _data[i];
-		_data[i] = override;
-		override = temp;
-	    }
-	    _lastPos++;
+	if ( index == _lastPos ) {
+	    add(newVal);
 	}
 	else { //else of if (index <= _lastpos)
-	    _data[index] = newVal;
-	    _lastPos = index;
+	    for ( int i = _size; i > index; i-- ) {
+		_data[i] = _data[i-1];
+	    }
+	    data[index] = newVal;
+	    _lastPos++;
+	    _size++;
 	}
-	_size = _lastPos + 1;
     }
 
 
     //removes the item at index
     //shifts elements left to fill in newly-empted slot
     public void remove( int index ) { 
-	if ( index <= _lastPos ) {
-	    for ( int i = index; i < _data.length - 1; i++ ) {
-		_data[i] = _data[i+1];
-	    }
-	    _data[_lastPos] = 0;
-	    _lastPos--;
-	    _size--;
+	for ( int i = index; i < _size - 1; i++ ) {
+	    _data[i] = _data[i+1];
 	}
+	_data[_lastPos] = 0;
+	_lastPos--;
+	_size--;
     }
 
 
