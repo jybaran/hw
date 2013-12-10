@@ -23,20 +23,12 @@ public class OrderedArrayList {
 
     // default constructor initializes instance variable _data
     public OrderedArrayList() {
-	_data = new ArrayList();
+	_data = new ArrayList<Comparable>();
     }
 
 
     public String toString() { 
-	String foo = "[";
-	for( int i = 0; i < this.size()-1; i++ ) {
-	    foo += _data.get(i) + ",";
-	}
-	if ( foo.length() > 1 )
-	    //shave off trailing comma
-	    foo = foo.substring( 0, foo.length()-1 );
-	foo += "]";
-	return foo;
+	return _data.toString();
     }
 
 
@@ -61,17 +53,13 @@ public class OrderedArrayList {
     // maintains ascending order of elements
     // uses a linear search to find appropriate index
     public void addLinear(Comparable newVal) { 
-	if ( ( _data.size() > 0 ) && ( _data.get( _data.size()-1 ).compareTo( newVal ) > 0 ) ) {
-	    for ( int i = 0; i < _data.size(); i++) {
-		if ( _data.get(i).compareTo( newVal ) >= 0 ) {
-		    _data.add(i, newVal);
-		    break;
-		}
+	for ( int i = 0; i < _data.size(); i++) {
+	    if ( _data.get(i).compareTo( newVal ) < 0 ) {
+		_data.add(i, newVal);
+		return; //not break because you want to exit the entire method, not just the for loop
 	    }
 	}
-	else {
-	    _data.add(newVal);
-	}
+	_data.add(newVal);
     }
 
 
@@ -81,26 +69,27 @@ public class OrderedArrayList {
     // maintains ascending order of elements
     // uses a binary search to find appropriate index
     public void addBinary(Comparable newVal) { 
-	int hi = _data.size() - 1;
 	int lo = 0;
-	int i = 0;
+	int med = 0;
+	int hi = _data.size() - 1;
 
-	while ( lo <= hi ) {
-	    int mid = lo + ( hi - lo ) / 2;
+	while ( lo <= hi ) { //running until target found or bounds cross
+	    med = (lo + hi) / 2;
+	    int x = _data.get(med).compareTo( newVal );
 	    
-	    if ( _data.get(mid).compareTo(newVal) > 0 ) {
-		hi = mid - 1;
+	    if ( x == 0 ) { //equal value found, insert here
+		_data.add( med, newVal );
+		return;
 	    }
-	    else if ( _data.get(mid).compareTo(newVal) < 0 ) {
-		lo = mid + 1;
+	    else if ( x > 0 ) { //newVal < med, so look at lower half of data
+		hi = med - 1;
 	    }
-	    else if ( _data.get(mid).compareTo(newVal) == 0 ) {
-		i = mid;
-		break;
+	    else { //newVal > med, so look at upper half of data
+		lo = med + 1;
 	    }
-	    i = lo;
 	}
-
+	// If you make it this far, newVal isn't in the ArrayList.
+	// So insert at lo, because you want to shove the next highest value up.
 	_data.add(i, newVal);
     }	
 
