@@ -1,3 +1,8 @@
+// JENNY BARAN
+// pd 8
+// HW44
+// 2013-12-16
+
 /*========================================
 class Concentration
 Facilitates playing game of Concentration,
