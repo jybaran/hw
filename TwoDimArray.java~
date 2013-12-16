@@ -10,12 +10,12 @@ public class TwoDimArray {
     //          uses a FOR loop
     public static void print1( int[][] a ) { 
 	for (int i = 0; i < a.length; i++) {
-	    String row = "[";
+	    String row = "";
 	    for (int j = 0; j < a[i].length; j++) {
 		row += a[i][j] + ",";
 	    }
 	    if ( row.length() > 0 ) {
-		row = row.substring( 0, row.length() - 1 ) + "]";
+		row = row.substring( 0, row.length() - 1 );
 	    }
 	    System.out.println(row);
 	}
