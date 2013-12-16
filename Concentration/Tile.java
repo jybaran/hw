@@ -1,3 +1,8 @@
+// JENNY BARAN
+// pd 8
+// HW44
+// 2013-12-16
+
 /*========================================
 class Tile
 Intended for use with class Concentration.
@@ -16,6 +21,8 @@ public class Tile {
 
     public boolean isFaceUp() { return _isFaceUp; }
 
+    public String getFace() { return _face; }
+
     public void flip() { _isFaceUp = !_isFaceUp; }
 
     public String toString() {
@@ -27,17 +34,26 @@ public class Tile {
 
     //*** YOU WILL NEED TO IMPLEMENT EQUALS ***
     //	  ...(use the hints below)
-
+    
     //overridden equals method
     public boolean equals( Object rightSide ) {
+	
+	if ( this == rightSide ) { //First, check for aliasing.
+	    return true;
+	}
 
-	//First, check for aliasing.
+	else { //Next, if this and input Object are different objects,
+	    
+	    if ( ( rightSide instanceof Tile ) && //...check to see if input Object is a Tile
+		 ( this.getFace().equals(((Tile)rightSide).getFace()) ) && 
+		 ( this.isFaceUp() && ((Tile)rightSide).isFaceUp() ) ) { //...and that its state variables match those of this Tile
+		return true;
+	    }
+	    else {
+		return false;
+	    }
 
-	//Next, if this and input Object are different objects,
-
-	    //...check to see if input Object is a Tile
-
-		//...and that its state variables match those of this Tile
+	}
 
     }
 
