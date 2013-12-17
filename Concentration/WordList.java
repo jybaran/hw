@@ -20,8 +20,12 @@ public class WordList {
 
     private ArrayList<String> myList; // contains Strings made up of letters
 
-    public WordList(int n) {
-	myList = new ArrayList<String>(n);
+    public WordList() {
+	myList = new ArrayList<String>();
+    }
+
+    public WordList( ArrayList<String> list ) {
+	myList = list;
     }
 
     //postcond: returns the number of words in this WordList that are 
@@ -39,21 +43,36 @@ public class WordList {
     //postcond: all words that are exactly len letters long have been removed 
     //          from this WordList, with order of remaining words unchanged
     public void removeWordsOfLength(int len) { 
-	ArrayList<String> temp = new ArrayList<String>( myList.size() 
-							- numWordsOfLength(len) );
-	int j = 0;
 	for ( int i = 0; i < myList.size(); i++ ) {
-	    if ( myList.get(i).length() != len ) {
-		temp.add( j, myList.get(i) );
+	    if ( myList.get(i).length() == len ) {
+		myList.remove(i);
 		i--;
-		j++;
 	    }
 	}
-	myList = temp;
+    }
+
+    public ArrayList<String> getList() {
+	return myList;
+    }
+
+    public int getSize() {
+	return myList.size();
+    }
+
+    public String get(int index) {
+	return myList.get(index);
+    }
+
+    public void add(String x) {
+	myList.add(x);
     }
 
     public void add(int n, String x) {
 	myList.add(n, x);
+    }
+
+    public void remove(int index) {
+	myList.remove(index);
     }
 
     public String toString() {
@@ -68,7 +87,7 @@ public class WordList {
 
     public static void main( String[] args ) {
 
-	WordList wl = new WordList(10);
+	WordList wl = new WordList();
 	wl.add(0, "cat");
 	wl.add(1, "dog");
 	wl.add(2, "bird");
@@ -88,7 +107,7 @@ public class WordList {
 	wl.removeWordsOfLength(3);
 	System.out.println(wl);
 	wl.removeWordsOfLength(4);
-	System.out.println(4);
+	System.out.println(wl);
 
 
     }
