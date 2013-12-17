@@ -38,23 +38,11 @@ public class Tile {
     //overridden equals method
     public boolean equals( Object rightSide ) {
 	
-	if ( this == rightSide ) { //First, check for aliasing.
-	    return true;
-	}
-
-	else { //Next, if this and input Object are different objects,
-	    
-	    if ( ( rightSide instanceof Tile ) && //...check to see if input Object is a Tile
-		 ( this.getFace().equals(((Tile)rightSide).getFace()) ) && 
-		 ( this.isFaceUp() && ((Tile)rightSide).isFaceUp() ) ) { //...and that its state variables match those of this Tile
-		return true;
-	    }
-	    else {
-		return false;
-	    }
-
-	}
-
+	return (  (this == rightSide ) || 
+		  (
+		   ( rightSide instanceof Tile ) && 
+		   ( this.getFace() == ((Tile)rightSide).getFace() ) && 
+		   ( this.isFaceUp() && ((Tile)rightSide).isFaceUp() ) ) );
     }
 
  
