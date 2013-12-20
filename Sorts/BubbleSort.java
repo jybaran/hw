@@ -57,7 +57,7 @@ public class BubbleSort {
 	    passes++;
 	}
 
-    }//end bubbleSortV -- O(?)
+    }//end bubbleSortV -- O(n*n) (can be lower, because of possible early break)
 
 
     // ArrayList-returning bubbleSort
@@ -70,28 +70,13 @@ public class BubbleSort {
 	    data.add(c);
 	}
 
-	int passes = 0;
-	int swaps = 0;
-	
-	while ( (passes == 0) || (swaps != 0) ) {
-	    swaps = 0;
-	    for ( int i = 0; i < data.size() - 1; i++ ) {
-		if ( data.get(i).compareTo( data.get(i+1) ) > 0 ) {
-		    Comparable temp = data.get(i);
-		    data.set(i, data.get(i+1));
-		    data.set(i+1, temp);
-		    swaps++;
-		}
-	    }
-	    passes++;
-	}
+	bubbleSortV(data);
 	    
 	return data;
     }//end bubbleSort -- O(?)
 
 
     public static void main(String [] args){
-
 
 	/*===============for VOID methods=============
 
