@@ -43,35 +43,47 @@ public class SelectionSort {
     // postcondition: data's elements sorted in ascending order
     public static void selectionSortV( ArrayList<Comparable> data ) {
 	int passes = 0;
-	int swaps = 0;
+	int swaps = 1;
+	int i;
 	int min;
 	
-	while ( (passes == 0) || (swaps != 0) ) {
+	while ( ( passes < data.size() - 1) && (swaps != 0) ) {
 	    swaps = 0;
-	    min = data.get(0);
-	    for ( int i = 0; i < data.size() - passes; i++ ) {
-		if ( data.get(i).compareTo( data.get(min) ) ) {
+	    i = passes;
+	    min = passes;
+	    for ( ; i < data.size(); i++ ) {
+		if ( data.get(i).compareTo( data.get(min) ) <= 0 ) {
 		    min = i;
 		}
 	    }
 	    Comparable temp = data.get(passes);
 	    data.set( passes, data.get(min) );
-	    data.set(min, temp);
-	    swaps++;
+	    data.set( min, temp );
 	    passes++;
+	    swaps++;
 	}
-    }//end selectionSortV -- O(?)
+    }//end selectionSortV -- O(n^2) 
 
 
     // ArrayList-returning selectionSort
     // postcondition: order of input ArrayList's elements unchanged
     //                Returns sorted copy of input ArrayList.
     public static ArrayList<Comparable> selectionSort( ArrayList<Comparable> input ) {
-    }//end selectionSort, O(?)
+	ArrayList<Comparable> data = new ArrayList<Comparable>();
+	
+	for ( Comparable c : input ) {
+	    data.add(c);
+	}
+	
+	selectionSortV(data);
+	
+	return data;
+    }//end selectionSort, O(n^2 + n)?
 
 
     public static void main( String [] args ) {
 
+	/*===============for VOID methods=============
 	
 	ArrayList glen = new ArrayList<Integer>();
 	glen.add(7);
@@ -87,10 +99,12 @@ public class SelectionSort {
 	System.out.println( "ArrayList coco before sorting:\n" + coco );
 	selectionSortV(coco);
 	System.out.println( "ArrayList coco after sorting:\n" + coco );
-	/*===============for VOID methods=============
-	  ============================================*/
+
+	============================================*/
 	
+
 	/*==========for AL-returning methods==========
+
     	ArrayList glen = new ArrayList<Integer>();
 	glen.add(7);
 	glen.add(1);
@@ -109,8 +123,8 @@ public class SelectionSort {
 	System.out.println( "sorted version of ArrayList coco:\n" 
 			    + cocoSorted );
 	System.out.println( "ArrayList coco after sorting:\n" + coco );
-	System.out.println( coco );
-	  ============================================*/
+	
+	============================================*/
 
     }//end main
 
