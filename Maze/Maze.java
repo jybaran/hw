@@ -29,13 +29,13 @@ class MazeSolver {
 
 	//init 2D array to represent maze
 	//Q: Significance of dimensions?
-	//A: 80x24 is default Terminal window size.
+	//A: 80x25 is default Terminal window size.
 	maze = new char[80][25];
 	h = 0;
 	w = 0;
 
 	try {
-	    Scanner sc = new Scanner( new File("maze09.dat") );
+	    Scanner sc = new Scanner( new File( inputFile ) );
 
 	    System.out.println( "reading in file..." );
 
@@ -160,7 +160,16 @@ public class Maze {
 	//TASK: Modify this class to allow input file specification via CLI
 	//eg    $ java Maze maze09.dat
 
-	MazeSolver ms = new MazeSolver( "maze09.dat" );
+	String input;
+
+	try {
+	    input = args[0];
+	}
+	catch (Exception e) {
+	    input = "maze09.dat";
+	}
+
+	MazeSolver ms = new MazeSolver( input );
 
 	//clear screen
 	System.out.println( "[2J" ); 
