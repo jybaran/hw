@@ -1,7 +1,7 @@
 // JENNY BARAN
-// pd 8
-// HW32
-// 2013-11-25
+// APCS2 pd 9
+// HW11
+// 2014-03-10
 
 
 /*==================================================
@@ -17,8 +17,18 @@
   ==================================================*/
 
 /*==================================================
-  the Breakdown:
-  Blah blah blah, yakkity smakkity, and a nice tall glass of OJ...
+   the Breakdown:
+   The fastest way to guess a random number is to reduce the range by half
+   with each guess. The range keeps getting divided by 2 until you reach a
+   range where there is only one value between _lo and _hi.
+   Number of times n can be halved before it reduces to 1.
+   
+   between 1 and 100, the max # of guesses is 7.
+   between 1 and 200, the max # of guesses is 8.
+   between 1 and 400, the max # of guesses is 9.
+   between 1 and 1000, the max # of guesses is 10.
+   between 1 and n, the max # of guesses is the exponent of the lowest
+   power of 2 that is greater than n
   ==================================================*/
 
 
@@ -42,13 +52,13 @@ public class GuessNumber {
 	_lo = a;
 	_hi = b;
 	_guessCtr = 1;
-	_target =(int)( Math.random()*(_hi-_lo) + _lo);
+	_target = (int)( Math.random()*(_hi-_lo) + _lo );
     }
 
 
     /*==================================================
-      void playRec() -- Prompts a user to guess until guess is correct.
-                        Uses recursion.
+      void playIter() -- Prompts a user to guess until guess is correct.
+                         Uses iteration.
       pre:  
       post: 
       ==================================================*/
@@ -59,47 +69,49 @@ public class GuessNumber {
 	while (guess != _target) {
 	  
 	    System.out.print("Guess a number between " + _lo + " and " + _hi + ": ");
-	     guess =Keyboard.readInt();
+	    guess = Keyboard.readInt();
 	    
 	    if ( guess > _target ) {
 		System.out.println("Too high.");
-		_hi=guess;
+		_hi = guess;
 	    }
 	    else if ( guess < _target ) {
 		System.out.println("Too low.");
-		_lo=guess;
+		_lo = guess;
 	    }
-	    else
-		System.out.println("WOW YOU GOT IT :D ! MAD SKILLS");
-				   
+	    else {
+		System.out.println("You got it in " + _guessCtr + " tries, nice job!");
+	    }
+	    _guessCtr++;
 	}
 	
     }
 
 
     /*==================================================
-      void playIter() -- Prompts a user to guess until guess is correct.
-                         Uses iteration.
+      void playRec() -- Prompts a user to guess until guess is correct.
+                        Uses recursion.
       pre:  
       post: 
       ==================================================*/
     public void playRec() {
-	int guess=_hi+1;
-	if (guess==_target)
+	int guess;
+	System.out.print("Guess a number between " + _lo + " and " + _hi + ": ");
+	guess = Keyboard.readInt();
+	_guessCtr++;
 
-	    System.out.print("WOW YOU GOT IT :D ! MAD SKILLS");
+	if (guess == _target) {
+	    System.out.println("You got it in " + _guessCtr + " tries, nice job!");
+	}
+	else {
 
-	else{
-	    System.out.print("Guess a number between " + _lo + " and " + _hi + ": ");
-	    guess =Keyboard.readInt();
-	    
 	    if ( guess > _target ) {
 		System.out.println("Too high.");
-		_hi=guess;
+		_hi = guess;
 	    }
 	    else if ( guess < _target ) {
 		System.out.println("Too low.");
-		_lo=guess;
+		_lo = guess;
 	    }
 	    playRec();
 	}
