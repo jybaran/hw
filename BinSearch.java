@@ -1,7 +1,16 @@
 // JENNY BARAN
-// pd 8
-// HW33
-// 2013-11-26
+// APCS2 pd 9
+// HW12
+// 2014-03-11
+
+/*===============
+  Binary search looks at the middle number in an ordered set and compares it
+  to the target number. After determining whether the midpoint is higher or lower
+  than the target, it looks at the half that would contain the target and tries
+  again in the same manner, continuing until it finds the target or determines
+  that it is not contained in the set.
+  Binary search runs in O(log n).
+  ===============*/
 
 public class BinSearch {
 
