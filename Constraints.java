@@ -1,7 +1,7 @@
 // JENNY BARAN
 // APCS2 pd 9
 // HW13
-// 2014-03-12
+// 2014-03-13
 
 public class Constraints {
     
@@ -21,6 +21,27 @@ public class Constraints {
 	return count;
     } //end trios
 
+    public static int squareSearch( int[][] sqr ) {
+	return -1;
+    }
+    
+    //something about move things to the appropriate index??
+    //if same int there, return
+    public static int missingNum( int[] arr ) {
+	int multReal = 1;
+	//int multIdeal = 1;
+	for ( int i = 0; i < arr.length; i++ ) {
+	    multReal = multReal * arr[i];
+	    //multIdeal = multIdea * ( i + 1 );
+	}
+	int retInt = -1;
+	for ( int j = arr.length+1; j > 0; j-- ) {
+	    if ( multReal % i == 0 ) {
+		return i;
+	    }
+	}
+    }
+
     public static void main( String[] args ) {
 	int[] foo = { 10, 20, 30, -10, -20, 0 };
 	
@@ -28,4 +49,4 @@ public class Constraints {
 
     }
     
-} //end class Constraints
+} //end class Constraints 
