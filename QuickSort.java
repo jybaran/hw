@@ -74,10 +74,14 @@ public class QuickSort {
 	int pivot = d[lo];
 
 	while ( tempLo < tempHi ) {
-	    while ( d[tempLo] <= pivot ) {
+	    while ( d[tempLo] < pivot ) {
 		tempLo++;
 	    }
 	    while ( d[tempHi] > pivot ) {
+		tempHi--;
+	    }
+	    if ( d[tempLo] == pivot && d[tempHi] == pivot ) {
+		swap( tempLo, tempHi-1, d );
 		tempHi--;
 	    }
 	    swap( tempLo, tempHi, d );
@@ -94,7 +98,7 @@ public class QuickSort {
     //main method for testing
     public static void main( String[] args ) {
 
-	/*~~~~s~l~i~d~e~~~m~e~~~d~o~w~n~~~~~~~~~~~~~~~~~~~~ (C-kk,C-y) 
+
 	//get-it-up-and-running, static test case:
 	int [] arr1 = {7,1,5,12,3};
 	System.out.println("\narr1 init'd to: " );
@@ -104,7 +108,8 @@ public class QuickSort {
        	System.out.println("arr1 after qsort: " );
 	printArr(arr1);
 
-
+	/*~~~~s~l~i~d~e~~~m~e~~~d~o~w~n~~~~~~~~~~~~~~~~~~~~ (C-kk,C-y) 
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	// randomly-generated arrays of n distinct vals
 	int[] arrN = new int[10];
 	for( int i = 0; i < arrN.length; i++ )
@@ -120,7 +125,6 @@ public class QuickSort {
 	qsort( arrN );
 	System.out.println("arrN after partitionNVals: " );
 	printArr(arrN);
-	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 	//get-it-up-and-running, static test case w/ dupes:
 	int [] arr2 = {7,1,5,12,3,7};
@@ -146,6 +150,8 @@ public class QuickSort {
 	qsort( arrMatey );
 	System.out.println("arrMatey after partitionNVals: " );
 	printArr(arrMatey);
+	/*
+	*/
 
     }//end main
 
