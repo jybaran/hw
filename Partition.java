@@ -4,7 +4,7 @@
 // 2014-03-18
 
 /*****************************************************
- * class Partition (skeleton) 
+ * class Partition
  * ...for partitioning an array into subarrays
  *****************************************************/
 
@@ -97,24 +97,32 @@ public class Partition {
      * partitionNVals(t)    ...and t is now {0,1,2,3,4,5,6,7}
      *****************************************************/
     public static void partitionNVals( int[] d ) { 
-	int min = d[0];
-	int max = d[0];
-	for ( int i : d ) {
-	    if ( i > max ) {
-		max = i;
-	    }
-	    if ( i < min ) {
-		min = i;
-	    }
-	}
-	int hi = d.length-1;
-	
-	for ( ; max > min; max-- ) {
-	    hi = partitionHelp( 0, hi, min, max, d );
-	}
+	partNHelp( 0, d.length - 1, d );
     }
     public static void partNHelp( int lo, int hi, int[] d ) { 
-	/* *** YOUR IMPLEMENTATION HERE */
+	if ( lo >= hi ) {
+	    return;
+	}
+
+	int tempLo = lo;
+	int tempHi = hi;
+	int pivot = d[lo];
+
+	while ( tempLo < tempHi ) {
+	    while ( d[tempLo] < pivot ) {
+		tempLo++;
+	    }
+	    while ( d[tempHi] > pivot ) {
+		tempHi--;
+	    }
+	    swap( tempLo, tempHi, d );
+	}
+
+	d[tempLo] = pivot;
+	
+	partNHelp( lo, tempLo - 1, d );
+	partNHelp( tempLo + 1, hi, d );
+
     }
 
 
@@ -141,8 +149,17 @@ public class Partition {
 	printArr(arr3);
 
 	// TESTING PARTITION OF N DISTINCT VALUES...
-	int[] arrN = buildArray( 10, 4 );
+	//int[] arrN = buildArray( 10, 4 );
+	int[] arrN = new int[10];
+	for ( int i = 0; i < arrN.length; i++ ) {
+	    arrN[i] = i;
+	}
+
 	System.out.println("\narrN init'd to: " );
+	printArr(arrN);
+
+	shuffle(arrN);
+	System.out.println("arrN post-shuffle: ");
 	printArr(arrN);
 
 	partitionNVals(arrN);
