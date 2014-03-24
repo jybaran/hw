@@ -1,0 +1,115 @@
+/*****************************************************
+ * class LList
+ * Implements a linked list.
+ *****************************************************/
+
+public class LList implements List { //your List.java must be in same dir
+
+    //instance vars
+    private LLNode _head;
+    private int _size;
+
+    //constructor -- initializes instance vars
+    public LList() {
+	_head = null; //when created, a list is empty
+	_size = 0; //see last
+    }
+
+    public boolean add( String x ) { 
+	LLNode temp = new LLNode( x, _head );
+	_head = temp;
+	_size++;
+	return true;
+    } 
+
+    public String get( int i ) { 
+	
+	if ( i < 0 || i >= size() ) {
+	    throw new IndexOutOfBoundsException();
+	}
+
+	String retStr;
+	LLNode temp = _head; //makes an alias to head
+
+	//goes to the node at i
+	for ( int j = 0; j < i; j++ ) {
+	    temp = temp.getNext();
+	}
+
+	//check cargo at target node
+	retStr = temp.getCargo();
+	return retStr;
+	
+    } 
+
+    public String set( int i, String x ) {
+	
+	if ( i < 0 || i >= size() ) {
+	    throw new IndexOutOfBoundsException();
+	}
+	
+	LLNode temp = _head; //makes an alias to head
+
+	//goes to the node at i
+	for ( int j = 0; j < i; j++ ) {
+	    temp = temp.getNext();
+	}
+
+	//store target node's original cargo
+	String oldVal = temp.getCargo();
+
+	//replace old cargo with new val
+	temp.setCargo( x );
+	
+	return oldVal;
+	
+    } 
+
+    public int size() { 
+	return _size;
+    } 
+    
+    public String toString() {
+	String retStr = "HEAD->";
+	LLNode temp = _head;
+	while ( temp != null ) {
+	    retStr += temp.getCargo() + "->";
+	    temp = temp.getNext();
+	}
+	retStr += "NULL";
+	return retStr;
+    }
+
+    public static void main( String[] args ) {
+	
+	LList james = new LList();
+
+	System.out.println( james );
+	System.out.println( "size:" + james.size() );
+	
+	james.add( "beat" );
+	System.out.println( james );
+	System.out.println( "size:" + james.size() );
+
+	james.add( "a" );
+	System.out.println( james );
+	System.out.println( "size:" + james.size() );
+
+	james.add( "need" );
+	System.out.println( james );
+	System.out.println( "size:" + james.size() );
+
+	james.add( "I" );
+	System.out.println( james );
+	System.out.println( "size:" + james.size() );
+
+	System.out.println( "2nd item is: " + james.get(1) );
+
+	james.set( 1, "got" );
+	System.out.println( "...and now 2nd item is: " + james.set(1, "got") );
+
+	System.out.println( james );
+
+    } //end main
+
+} //end class LList
