@@ -22,6 +22,27 @@ public class LList implements List { //your List.java must be in same dir
 	return true;
     } 
 
+    public void add( int i, String x ) {
+	LLNode temp = _head;
+	for ( int pt = 0; pt < i - 1; pt++ ) {
+	    temp = temp.getNext();
+	}
+	temp.getNext().setNext( new LLNode( x, temp.getNext().getNext() ) );
+	_size++;
+    }
+
+    public String remove( int i ) {
+	String retStr;
+	LLNode temp = _head;
+	for ( int pt = 0; pt < i - 1; pt++ ) {
+	    temp = temp.getNext();
+	}
+	retStr = temp.getNext().getCargo();
+	temp.setNext( temp.getNext().getNext() );
+	_size--;
+	return retStr;
+    }
+
     public String get( int i ) { 
 	
 	if ( i < 0 || i >= size() ) {
@@ -108,6 +129,14 @@ public class LList implements List { //your List.java must be in same dir
 	james.set( 1, "got" );
 	System.out.println( "...and now 2nd item is: " + james.set(1, "got") );
 
+	System.out.println( james );
+
+	james.add( 2, "sick" );
+	System.out.println( "...after adding " + james.get(2) 
+			    + " to 3rd spot:" );
+	System.out.println( james );
+	
+	System.out.println( "...after removing " + james.remove( 3 ) + ":" );
 	System.out.println( james );
 
     } //end main
