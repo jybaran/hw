@@ -1,3 +1,8 @@
+// JENNY BARAN
+// APCS2 pd 9
+// HW19
+// 2014-03-24
+
 /*****************************************************
  * class LList
  * Implements a linked list.

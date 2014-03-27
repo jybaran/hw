@@ -1,30 +1,36 @@
 // JENNY BARAN
 // APCS2 pd 9
-// HW19
-// 2014-03-24
+// HW21
+// 2014-03-26
 
 /*****************************************************
- * class LLNode
+ * class DLLNode
  * Implements a node, for use in lists and other container classes.
  *****************************************************/
 
-public class LLNode<T> {
+public class DLLNode<T> {
 
     private T _cargo; //cargo is a generic
-    private LLNode _nextNode; //points to LLNode
+    private DLLNode _nextNode; //points to DLLNode
+    private DLLNode _prevNode; //points to DLLNode
 
     //constructor -- initialized instance vars
-    public LLNode( T value, LLNode next ) {
+    public DLLNode( T value, DLLNode next, DLLNode prev ) {
 	_cargo = value;
 	_nextNode = next;
+	_prevNode = prev;
     }
 
     public T getCargo() {
 	return _cargo;
     }
 
-    public LLNode getNext() {
+    public DLLNode getNext() {
 	return _nextNode;
+    }
+
+    public DLLNode getPrev() {
+	return _prevNode;
     }
 
     public T setCargo( T newCargo ) {
@@ -33,21 +39,27 @@ public class LLNode<T> {
 	return oldCargo;
     }
 
-    public LLNode setNext( LLNode newNext ) {
-	LLNode oldNext = getNext();
+    public DLLNode setNext( DLLNode newNext ) {
+	DLLNode oldNext = getNext();
 	_nextNode = newNext;
 	return oldNext;
     }
 
+    public DLLNode setPrev( DLLNode newPrev ) {
+	DLLNode oldPrev = getPrev();
+	_prevNode = newPrev;
+	return oldPrev;
+    }
+
     public static void main( String[] args ) {
 	//create a node
-	LLNode first = new LLNode( "cat", null );
+	DLLNode first = new DLLNode( "cat", null, null );
 
 	//add another node
-	first.setNext( new LLNode( "dog", null ) );
+	first.setNext( new DLLNode( "dog", null, first ) );
 	
 	//add a third node after the second
-	first.getNext().setNext( new LLNode( "cow", null ) );
+	first.getNext().setNext( new DLLNode( "cow", null, first.getNext() ) );
 
 	/*A naive list traversal, has side effect of destroying list
 	while( first != null ) {
@@ -60,7 +72,7 @@ public class LLNode<T> {
 	//A: memory is reclaimed (deletes the node)
 
 	//so the better way to traverse the list (w/o moving head pointer):
-	LLNode temp = first; //create pointer to first so memory isn't reclaimed
+	DLLNode temp = first; //create pointer to first so memory isn't reclaimed
 	while ( temp != null ) {
 	    System.out.println( temp );
 	    temp = temp.getNext();
@@ -68,4 +80,4 @@ public class LLNode<T> {
     
     } //end main
 
-} //end class LLNode
+} //end class DLLNode

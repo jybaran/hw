@@ -1,61 +1,82 @@
 // JENNY BARAN
 // APCS2 pd 9
-// HW18
-// 2014-03-21
+// HW21
+// 2014-03-26
 
 /*****************************************************
  * class LList
  * Implements a linked list.
  *****************************************************/
 
-public class LList implements List { //your List.java must be in same dir
+public class LList<T> implements List<T> { //your List.java must be in same dir
 
     //instance vars
-    private LLNode _head;
+    private DLLNode _head;
+    private DLLNode _tail;
     private int _size;
 
     //constructor -- initializes instance vars
     public LList() {
 	_head = null; //when created, a list is empty
+	_tail = null;
 	_size = 0; //see last
     }
 
-    public boolean add( String x ) { 
-	LLNode temp = new LLNode( x, _head );
-	_head = temp;
+    public boolean add( T x ) { 
+	DLLNode temp = new DLLNode( x, null, _tail );
+	_tail = temp;
+	if ( _tail.getPrev() != null ) {
+	    _tail.getPrev().setNext( _tail );
+	}
 	_size++;
 	return true;
     } 
 
-    public void add( int i, String x ) {
-	LLNode temp = _head;
-	for ( int pt = 0; pt < i - 1; pt++ ) {
+    public void add( int i, T x ) {
+	DLLNode temp = _head;
+	for ( int pt = 0; pt < i; pt++ ) {
 	    temp = temp.getNext();
 	}
-	temp.getNext().setNext( new LLNode( x, temp.getNext().getNext() ) );
+	DLLNode tmp1 = temp.getNext();
+	temp.setNext( new DLLNode( x, tmp1, temp ) );
+	tmp1.setPrev( temp.getNext() );
 	_size++;
     }
 
-    public String remove( int i ) {
-	String retStr;
-	LLNode temp = _head;
-	for ( int pt = 0; pt < i - 1; pt++ ) {
+    public T remove( int i ) {
+	T retVal;
+	DLLNode temp = _head;
+	for ( int pt = 0; pt <= i; pt++ ) {
 	    temp = temp.getNext();
 	}
-	retStr = temp.getNext().getCargo();
-	temp.setNext( temp.getNext().getNext() );
+	retVal = (T)( temp.getCargo() );
+	
+	if ( temp.getNext() == null ) {
+	    temp.getPrev().setNext( null );
+	}
+	else {
+	    temp.getPrev().setNext( temp.getNext() );
+	}
+	
+	if ( temp.getPrev() == null ) {
+	    temp.getNext().setPrev( null );
+	}
+	else {
+	    temp.getNext().setPrev( temp.getPrev() );
+	}
+
 	_size--;
-	return retStr;
+	return retVal;
     }
 
-    public String get( int i ) { 
+    public T get( int i ) { 
 	
 	if ( i < 0 || i >= size() ) {
 	    throw new IndexOutOfBoundsException();
 	}
 
-	String retStr;
-	LLNode temp = _head; //makes an alias to head
+	T retVal;
+	DLLNode temp = _head; //makes an alias to head
 
 	//goes to the node at i
 	for ( int j = 0; j < i; j++ ) {
@@ -63,18 +84,18 @@ public class LList implements List { //your List.java must be in same dir
 	}
 
 	//check cargo at target node
-	retStr = temp.getCargo();
-	return retStr;
+	retVal = (T)( temp.getCargo() );
+	return retVal;
 	
     } 
 
-    public String set( int i, String x ) {
+    public T set( int i, T x ) {
 	
 	if ( i < 0 || i >= size() ) {
 	    throw new IndexOutOfBoundsException();
 	}
 	
-	LLNode temp = _head; //makes an alias to head
+	DLLNode temp = _head; //makes an alias to head
 
 	//goes to the node at i
 	for ( int j = 0; j < i; j++ ) {
@@ -82,7 +103,7 @@ public class LList implements List { //your List.java must be in same dir
 	}
 
 	//store target node's original cargo
-	String oldVal = temp.getCargo();
+	T oldVal = (T)( temp.getCargo() );
 
 	//replace old cargo with new val
 	temp.setCargo( x );
@@ -97,12 +118,12 @@ public class LList implements List { //your List.java must be in same dir
     
     public String toString() {
 	String retStr = "HEAD->";
-	LLNode temp = _head;
+	DLLNode temp = _head;
 	while ( temp != null ) {
 	    retStr += temp.getCargo() + "->";
 	    temp = temp.getNext();
 	}
-	retStr += "NULL";
+	retStr += "TAIL";
 	return retStr;
     }
 

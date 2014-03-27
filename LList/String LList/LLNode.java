@@ -1,3 +1,8 @@
+// JENNY BARAN
+// APCS2 pd 9
+// HW18
+// 2014-03-21
+
 /*****************************************************
  * class LLNode
  * Implements a node, for use in lists and other container classes.
