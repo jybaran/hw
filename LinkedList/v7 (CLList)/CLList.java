@@ -11,70 +11,135 @@
 public class CLList<T> implements List<T> { //your List.java must be in same dir
 
     //instance vars
-    private DLLNode _head;
-    private DLLNode _tail;
+    private DLLNode<T> _head;
     private int _size;
 
     //constructor -- initializes instance vars
     public CLList() {
-	_head = null; //when created, a list is empty
-	_tail = null;
+	_head = null;
 	_size = 0; //see last
     }
 
-    public boolean add( T x ) {
+    public boolean addFront( T x ) {
+	DLLNode<T> newNode = new DLLNode<T>( x, null, null );
 	if ( size() == 0 ) {
-	    DLLNode temp = new DLLNode( x, null, null );
-	    _head = _tail = temp;
+	    newNode.setNext( newNode );
+	    newNode.setPrev( newNode );
+	    _head = newNode;
 	}
-	_tail = temp;
-	if ( _tail.getPrev() != null ) {
-	    _tail.getPrev().setNext( _tail );
+	else {
+	    DLLNode<T> temp = _head.getPrev();
+	    temp.setNext( newNode );
+	    newNode.setPrev( temp );
+	    newNode.setNext( _head );
+	    _head.setPrev( newNode );
+	    _head = newNode;
 	}
 	_size++;
 	return true;
-    } 
+    }
+
+    public boolean addEnd( T x ) {
+	DLLNode<T> newNode = new DLLNode<T>( x, null, null );
+	if ( size() == 0 ) {
+	    newNode.setNext( newNode );
+	    newNode.setPrev( newNode );
+	    _head = newNode;
+	}
+	else {
+	    DLLNode<T> temp = _head.getPrev();
+	    temp.setNext( newNode );
+	    newNode.setNext( _head );
+	    _head.setPrev( newNode );
+	    newNode.setPrev( temp );
+	}
+	_size++;
+	return true;
+    }
+
+    public boolean add( T x ) {
+	return addEnd( x );
+    }
 
     public void add( int i, T x ) {
-	DLLNode temp = _head;
-	for ( int pt = 0; pt < i; pt++ ) {
-	    temp = temp.getNext();
+	if ( i == 0 ) {
+	    addFront( x );
 	}
-	DLLNode tmp1 = temp.getNext();
-	temp.setNext( new DLLNode( x, tmp1, temp ) );
-	tmp1.setPrev( temp.getNext() );
+	else if ( i >= size() ) {
+	    addEnd( x );
+	}
+	else {
+	    DLLNode<T> temp = _head;
+	    DLLNode<T> newNode = new DLLNode<T>( x, null, null );
+	    for ( int j = 0; j < i; j++ ) {
+		temp = temp.getNext();
+	    }
+	    newNode.setNext( temp.getNext() );
+	    temp.getNext().setPrev( newNode );
+	    temp.setNext( newNode );
+	    newNode.setPrev( temp );
+	}
 	_size++;
     }
 
-    public T remove( int i ) {
-	T retVal;
-	DLLNode temp = _head;
-	for ( int pt = 0; pt <= i; pt++ ) {
-	    temp = temp.getNext();
-	}
-	retVal = (T)( temp.getCargo() );
-	
-	if ( temp.getNext() == null ) {
-	    temp.getPrev().setNext( null );
+    public T removeFront() {
+	T retVal = null;
+	if ( size() <= 1 ) {
+	    _head = null;
 	}
 	else {
-	    temp.getPrev().setNext( temp.getNext() );
+	    DLLNode<T> temp = _head.getNext();
+	    _head.getPrev().setNext( temp );
+	    temp.setPrev( _head.getPrev() );
+	    retVal = (T)( _head.getValue() );
+	    _head = temp;
 	}
-	
-	if ( temp.getPrev() == null ) {
-	    temp.getNext().setPrev( null );
-	}
-	else {
-	    temp.getNext().setPrev( temp.getPrev() );
-	}
+	_size--;
+	return retVal;
+    }
 
+    public T removeEnd() {
+	T retVal = null;
+	if ( size() <= 1 ) {
+	    _head = null;
+	}
+	else {
+	    DLLNode<T> temp = _head.getPrev();
+	    temp.getPrev().setNext( _head );
+	    _head.setPrev( temp.getPrev() );
+	    retVal = (T)( temp.getValue() );
+	    temp = null;
+	}
+	_size--;
+	return retVal;
+    }
+
+    public T remove( int i ) {
+	T retVal = null;
+	if ( i == 0 ) {
+	    retVal = removeFront();
+	}
+	else if ( i == size() - 1 ) {
+	    retVal = removeEnd();
+	}
+	else {
+	    DLLNode<T> temp = _head;
+	    for ( int pt = 0; pt <= i; pt++ ) {
+		temp = temp.getNext();
+	    }
+	    retVal = (T)( temp.getValue() );
+	    DLLNode<T> node = temp.getNext();
+	    node.setPrev( temp.getPrev() );
+	    temp.getPrev().setNext( node );
+	    temp = null;
+	}
 	_size--;
 	return retVal;
     }
 
     public T get( int i ) { 
 	
-	if ( i < 0 || i >= size() ) {
+	if ( i < 0 || i > size() ) {
 	    throw new IndexOutOfBoundsException();
 	}
 
@@ -87,14 +152,14 @@ public class CLList<T> implements List<T> { //your List.java must be in same dir
 	}
 
 	//check cargo at target node
-	retVal = (T)( temp.getCargo() );
+	retVal = (T)( temp.getValue() );
 	return retVal;
 	
     } 
 
     public T set( int i, T x ) {
 	
-	if ( i < 0 || i >= size() ) {
+	if ( i < 0 ) {
 	    throw new IndexOutOfBoundsException();
 	}
 	
@@ -106,10 +171,10 @@ public class CLList<T> implements List<T> { //your List.java must be in same dir
 	}
 
 	//store target node's original cargo
-	T oldVal = (T)( temp.getCargo() );
+	T oldVal = (T)( temp.getValue() );
 
 	//replace old cargo with new val
-	temp.setCargo( x );
+	temp.setValue( x );
 	
 	return oldVal;
 	
@@ -123,7 +188,7 @@ public class CLList<T> implements List<T> { //your List.java must be in same dir
 	String retStr = "HEAD->";
 	DLLNode temp = _head;
 	while ( temp != null ) {
-	    retStr += temp.getCargo() + "->";
+	    retStr += temp.getValue() + "->";
 	    temp = temp.getNext();
 	}
 	retStr += "TAIL";
@@ -132,7 +197,7 @@ public class CLList<T> implements List<T> { //your List.java must be in same dir
 
     public static void main( String[] args ) {
 	
-	LList james = new LList();
+	CLList<String> james = new CLList<String>();
 
 	System.out.println( james );
 	System.out.println( "size:" + james.size() );

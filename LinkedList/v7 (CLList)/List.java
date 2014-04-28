@@ -1,7 +1,7 @@
 // JENNY BARAN
 // APCS2 pd 9
-// HW21
-// 2014-03-26
+// HW32b
+// 2014-04-25
 
 /*****************************************************
  * interface List
@@ -9,10 +9,16 @@
  *****************************************************/
 
 public interface List<T> { 
-
-    public boolean add( T x ); 
+    
+    public boolean addFront( T x );
+    
+    public boolean addEnd( T x );
 
     public void add( int i, T x );
+    
+    public T removeFront();
+    
+    public T removeEnd();
 
     public T remove( int i );
 
