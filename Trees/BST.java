@@ -76,11 +76,11 @@ public class BST {
 	preOTHelper( temp );
     }
     
-    public void preOTHelper( TreeNode r ) {
+    public void preOrderTrav( TreeNode r ) {
 	if ( r != null ) {
 	    System.out.println( r.getValue() );
-	    preOTHelper( r.getLeft() );
-	    preOTHelper( r.getRight() );
+	    preOrderTrav( r.getLeft() );
+	    preOrderTrav( r.getRight() );
 	}
     }
 
@@ -89,11 +89,11 @@ public class BST {
 	inOTHelper( temp );
     }
 
-    public void inOTHelper( TreeNode r ) {
+    public void inOrderTrav( TreeNode r ) {
 	if ( r != null ) {
-	    inOTHelper( r.getLeft() );
+	    inOrderTrav( r.getLeft() );
 	    System.out.println( r.getValue() );
-	    inOTHelper( r.getRight() );
+	    inOrderTrav( r.getRight() );
 	}
     }
 
@@ -102,10 +102,10 @@ public class BST {
 	postOTHelper( temp );
     }
 
-    public void postOTHelper( TreeNode r ) {
+    public void postOrderTrav( TreeNode r ) {
 	if ( r != null ) {
-	    postOTHelper( r.getLeft() );
-	    postOTHelper( r.getRight() );
+	    postOrderTrav( r.getLeft() );
+	    postOrderTrav( r.getRight() );
 	    System.out.println( r.getValue() );
 	}
     }
