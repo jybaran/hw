@@ -29,41 +29,30 @@ public class BST {
      * Adds a new data element to the tree at appropriate location.
      *****************************************************/
     public void insert( int newVal ) {
-     	if ( _root == null ) {
-	    _root = new TreeNode( newVal );
-	}
-	else if ( _root.getValue() == newVal ) {
+	TreeNode newNode = new TreeNode( newVal );
 
+     	if ( _root == null ) {
+	    _root = newNode;
+	    return;
+	}
+	insert( _root, newNode);
+    }
+
+    public void insert( TreeNode stRoot, TreeNode newNode ) {
+	if ( newNode.getValue() < stRoot.getValue() ) {
+	    if ( stRoot.getLeft() != null ) { //more nodes to left exist
+		insert( stRoot.getLeft(), newNode );
+	    }
+	    else {
+		stRoot.setLeft( newNode );
+	    }
 	}
 	else {
-	    int rootVal = _root.getValue();
-	    TreeNode newNode = new TreeNode( newVal );
-	    TreeNode temp = _root;
-	    boolean inserted = false;
-	    while ( !inserted ) {
-		if ( rootVal > newVal ) {
-		    if ( temp.getLeft() != null ) { //more nodes to left exist
-			temp = temp.getLeft(); //set temp to left node, repeat
-		    }
-		    else {
-			temp.setLeft( newNode );
-			inserted = true;
-		    }
-		}
-		else if ( rootVal < newVal ) {
-		    if ( temp.getRight() != null ) { //more nodes to right exist
-			temp = temp.getRight(); //set temp to right node, repeat
-		    }
-		    else { //the spot is empty, can put newVal there
-			temp.setRight( newNode );
-			inserted = true;
-		    }
-		}
-		else { //vals are equal, nV is already in tree
-		    System.out.println( "Error, this value is already in the tree." );
-		    break;
-		}
-		rootVal = temp.getValue(); //match rootVal to current subtree root (temp)
+	    if ( stRoot.getRight() != null ) { //more nodes to right exist
+		insert( stRoot.getRight(), newNode );
+	    }
+	    else { //the spot is empty, can put newVal there
+		stRoot.setRight( newNode );
 	    }
 	}
     }
@@ -73,7 +62,7 @@ public class BST {
     //~~~~~~~~~~~~~v~~TRAVERSALS~~v~~~~~~~~~~~~~~~~~~~~~
     public void preOrderTrav() {
     	TreeNode temp = _root;
-	preOTHelper( temp );
+	preOrderTrav( temp );
     }
     
     public void preOrderTrav( TreeNode r ) {
@@ -86,7 +75,7 @@ public class BST {
 
     public void inOrderTrav() {
     	TreeNode temp = _root;
-	inOTHelper( temp );
+	inOrderTrav( temp );
     }
 
     public void inOrderTrav( TreeNode r ) {
@@ -99,7 +88,7 @@ public class BST {
 
     public void postOrderTrav() {
 	TreeNode temp = _root;
-	postOTHelper( temp );
+	postOrderTrav( temp );
     }
 
     public void postOrderTrav( TreeNode r ) {
