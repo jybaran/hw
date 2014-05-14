@@ -241,17 +241,16 @@ public class BST {
 
 	BST arbol = new BST();
 
+	arbol.insert( 3 );
 	arbol.insert( 4 );
-	arbol.insert( 2 );
 	arbol.insert( 5 );
 	arbol.insert( 6 );
+	arbol.insert( 2 );
 	arbol.insert( 1 );
-	arbol.insert( 3 );
 
-	arbol.remove( 6 );
+	System.out.println( "\nheight: " + arbol.height());
 
-
-
+	/*~~~~~~~~~~~~move~me~down~~~~~~~~~~~~~~~~~~~~~~
 	System.out.println( "\npre-order traversal:" );
 	arbol.preOrderTrav();
 
@@ -262,7 +261,7 @@ public class BST {
 	arbol.postOrderTrav();	
 
 	System.out.println();
-	/*~~~~~~~~~~~~move~me~down~~~~~~~~~~~~~~~~~~~~~~
+
 	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     }
 
