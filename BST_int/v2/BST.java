@@ -71,26 +71,22 @@ public class BST {
      * or null if target not found
      *****************************************************/
     TreeNode search( int target ) {
-    	TreeNode retTN = search( _root, target );
-	return retTN;
+    	return search( _root, target );
     }
     
     TreeNode search( TreeNode stRoot, int target ) {
-	int tempVal = stRoot.getValue();
-	TreeNode retTN = null;
-	if ( stRoot == null ) {
-	    return null;
+	if ( stRoot == null || stRoot.getValue() == target ) {
+	    return stRoot;
 	}
-	if ( tempVal == target ) {
-	    retTN = stRoot;
+	else if ( target < stRoot.getValue() ) {
+	    return search( stRoot.getLeft(), target );
 	}
-	else if ( tempVal > target ) {
-	    retTN = search( stRoot.getLeft(), target );
+	else if ( target > stRoot.getValue() ) {
+	    return search( stRoot.getRight(), target );
 	}
 	else {
-	    retTN = search( stRoot.getRight(), target );
+	    return null;
 	}
-	return retTN;
     }
 
     /*****************************************************
@@ -98,53 +94,71 @@ public class BST {
      * if remVal is present, removes it from tree
      * Assumes no duplicates in tree.
      *****************************************************/
-    public void remove( int remVal ){
-	if ( search(remVal) == null ) { //check that remVal is in tree
-	    return;
-	}
-	remove( null, _root, remVal );
-    }
+    public void remove( int remVal ) {
+	TreeNode lead = _root;
+	TreeNode follow = null; //piggybacker
 
-    public void remove( TreeNode parent, TreeNode stRoot, int remVal ) {
-	if ( stRoot == null ) {
-	    return;
+	//first, walk ptr down to target w/ trailing follow ptr
+	while ( lead != null && lead.getValue() != remVal ) {
+	    if ( remVal < lead.getValue() ) {
+		follow = lead;
+		lead = lead.getLeft();
+	    }
+	    else { //remVal > lead.getValue()
+		follow = lead;
+		lead = lead.getRight();
+	    }
 	}
-	if ( stRoot.getValue() == remVal ) { //if root is val to be removed
-	    if ( stRoot.getLeft() == null && stRoot.getRight() == null ) { //root has no children
-		stRoot = null; //tree now empty
-		return;
+
+	if ( lead == null ) { //remVal not in tree
+	    return lead;
+	}
+
+	//CASE 1: removal node is a leaf
+	// action: snip it
+	if ( isLeaf(lead) ) {
+	    //subcase: 1-node tree
+	    if ( lead == _root ) {
+		_root = null;
+		return lead;
 	    }
-	    else if ( stRoot.getLeft() == null ) { //root has no left child
-		if ( parent != null ) {
-		    parent.setRight( stRoot.getRight() );
-		    stRoot = null;
-		}
-		else {
-		    stRoot = stRoot.getRight();
-		}
-		return;
+	    
+	    //subcase: rem node is a left child
+	    if ( follow.getLeft() == lead ) {
+		follow.setLeft( null );
+		return lead;
 	    }
-	    else if ( _root.getRight() == null ) { //root has no right child
-		if ( parent != null ) {
-		    parent.setLeft( stRoot.getLeft() );
-		    stRoot = null;
-		}
-		else {
-		    stRoot = stRoot.getLeft();
-		}
-		return;
-	    }
+	    //subcase: rem node is a right child
 	    else {
-		stRoot.setValue( findAndDeleteMin( stRoot.getRight() ) );
-		return;
+		follow.setRight( null );
+		return lead;
 	    }
 	}
-	parent = stRoot;
-	if ( stRoot.getValue() > remVal ) {
-	    remove( parent, stRoot.getLeft(), remVal );
+
+	//CASE 2: rem node has 1 subtree
+	//action: replace node w/ only child
+	else if ( lead.getRight() == null ) { //rem node's child is on left
+	    //subcase: rem node is root
+	    if ( lead == _root ) {
+		_root = lead.getLeft();
+		return lead;
+	    }
+
+	    //subcase: rem node is a left child
 	}
+
+	//CASE 3: rem node has 2 subtrees
+	//action: overwrite rem node val with max val in left subtree
+	//        (deepest node w/ no right child), then remove that node,
+	//        promoting its left child if exists
 	else {
-	    remove( parent, stRoot.getRight(), remVal );
+	    TreeNode maxLST = lead.getLeft();
+	    while( maxLST.getRight() != null ) {
+		maxLST = maxLST.getRight();
+	    }
+
+	    //create replacement node for rem node
+	    TreeNode tmp2;
 	}
     }
 
@@ -170,9 +184,16 @@ public class BST {
 	if ( stRoot == null ) {
 	    return 0;
 	}
+	if ( isLeaf(stRoot) ) {
+	    return 1;
+	}
 	else {
 	    return 1 + Math.max( height( stRoot.getLeft() ), height( stRoot.getRight() ) );
 	}
+    }
+
+    public boolean isLeaf( TreeNode nnnode ) {
+	return ( nnnode.getLeft()==null ) && ( nnnode.getRight()==null );
     }
 
     /*****************************************************
