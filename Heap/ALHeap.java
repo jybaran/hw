@@ -40,7 +40,6 @@ public class ALHeap {
     }//O(1)
 
 
-
     /*****************************************************
      * add(Integer) 
      * Inserts an element in the heap
@@ -84,24 +83,47 @@ public class ALHeap {
      * Postcondition: Tree maintains heap property.
      *****************************************************/
     public Integer removeMin() { //NOT DONE
-	Integer retInt = _heap.get(0);
-	_heap.remove( fixRem( 0 ) );
-	return retInt; //O(n)
+	if ( _heap.size() == 0 ) {
+	    return null;
+	}
+	
+	//store root val for return at end of fxn
+	Integer retInt = peekMin();
+	
+	//store val about to be swapped into root
+	Integer foo = _heap.get( _heap.size() - 1 );
+
+	//swap last leaf with root
+	swap( 0, _heap.size() - 1 );
+	
+	//lop off last leaf
+	_heap.remove( _heap.size() - 1 );
+
+	//walk the now out of place root down the tree
+	int pos = 0;
+	int minChildPos;
+
+	while ( pos < _heap.size() ) {
+	    //choose child w/ min val, or check for child
+	    minChildPos = minChildPos( pos );
+
+	    //if no children, walked far enough
+	    if ( minChildPos == -1 ) {
+		break;
+	    }
+	    //if i am less than my least child, walked far enough
+	    else if ( foo.compareTo( _heap.get( minChildPos ) ) <= 0 ) {
+		break;
+	    }
+	    //if i am > least child, swap
+	    else {
+		swap( pos, minChildPos );
+		pos = minChildPos;
+	    }
+	}
+	return retInt;
     }//O(?)
     
-    private int fixRem( int loc ) {
-	int childLoc = minChildPos( loc );
-	if ( childLoc != -1 ) {
-	    swap( loc, childLoc );
-	    return fixRem( childLoc );
-	}
-	if ( childLoc == -1 ) {
-	    return loc;
-	}
-	return loc;
-    }
-
-
 
     /*****************************************************
      * minChildPos(int)  ---  helper fxn for removeMin()
@@ -161,7 +183,7 @@ public class ALHeap {
      * b) ASCII representation of the tree (bit more complicated, much more fun)
      *****************************************************/
     public String toString() {
-	String retStr = "";
+	String retStr = "heap size: " + _heap.size() + "\n";
 	int count = 0;
 	int numPerLine = 1;
 	while ( count < _heap.size() ) {
