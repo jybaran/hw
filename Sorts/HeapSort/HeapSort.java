@@ -3,39 +3,38 @@
 // HW41
 // 2014-05-19
 
+/**********
+ best case: sorted already, O(nlogn)
+ worst case: reverse order, O(nlogn)
+ unclear on memory consumption, google-fu led to more confusion
+ (how can it be O(1) if every element in data needs a slot in the heap??)
+ (/additional/ mem consumption?? what is)
+ *********/
+
 import java.util.ArrayList;
 
 public class HeapSort {
 
-    Heap _heap = new Heap();
+    private static ALHeap _heap = new ALHeap();
 
     //returns a sorted version of data, data unchanged
-    public static ArrayList<Integer> heapSort( ArrayList<Integer> data ) {
-	ArrayList<Integer> retArr = new ArrayList<Integer>;
-	for ( Integer i : data ) {
+    public static Integer[] sort( Integer[] data ) {
+	Integer[]  retArr = new Integer[ data.length ];
+	for ( Integer i : data ) { //O(n)
 	    _heap.add( i );
 	}
-	for ( int i = 0; i < data.size(); i++ ) {
-	    retArr.add( _heap.removeMin() );
+	for ( int i = 0; i < data.length; i++ ) { //O(n)
+	    retArr[i] = _heap.removeMin(); //O(logn)
 	}
-    }
-
-    //makes ArrayList with randomized contents
-    public static ArrayList populate( int size, int lo, int hi ) {
-	ArrayList<Integer> retAL = new ArrayList<Integer>();
-
-	for ( int i = 0; i < size; i++ ) {
-	    int j = (int)( Math.random() * (hi - lo) ) + lo;
-	    retAL.add( j );
-	}
-
-	return retAL;
-    }
+	return retArr;
+    } //O(nlogn)
 
     public static void main( String[] args ) {
 
-	ArrayList yo = populate( 20, 1, 10 );
-	System.out.println( yo );
+	Integer[] yo = { 1, 7, 8, 3, 4, 9, 10, 13, 6 };
+	System.out.println( "orig: " + java.util.Arrays.toString(yo) );
+	System.out.println( "sorted: " + java.util.Arrays.toString(sort( yo )) );
+	System.out.println( "orig: " + java.util.Arrays.toString(yo) );
 
     }//end main
 
